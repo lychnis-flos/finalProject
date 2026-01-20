@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>詳細</title></head>
+<body>
+<h1>{{ post.title }}</h1>
+
+<p>カテゴリ：{{ post.category }}</p>
+<p>本文：{{ post.content }}</p>
+<p>いいね：{{ post.likes }}</p>
+
+<hr>
+<p>
+  <a href="/post/{{ post.id }}/edit/">編集</a> |
+  <a href="/post/{{ post.id }}/delete/">削除</a> |
+  <a href="/">一覧へ戻る</a>
+</p>
+</body>
+</html>

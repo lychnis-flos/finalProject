@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Timeline</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    .container { max-width: 900px; margin: 0 auto; }
+    header { display: flex; justify-content: space-between; align-items: center; }
+    h1 { margin: 0 0 10px 0; }
+    .top-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .box { border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin: 12px 0; }
+    .search-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .search-row label { font-size: 14px; }
+    input[type="text"], select { padding: 6px; }
+    button { padding: 6px 10px; cursor: pointer; }
+    .muted { color: #666; font-size: 14px; }
+    .post { border-top: 1px solid #eee; padding: 12px 0; }
+    .post:first-child { border-top: none; }
+    .post-title { margin: 0; }
+    .post-actions a { margin-right: 8px; }
+    .right { text-align: right; }
+    a { text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <header>
+    <div>
+      <h1>レビュー一覧</h1>
+      <div class="muted">キーワードとカテゴリで絞り込みできます。</div>
+    </div>
+    <div class="top-actions">
+      <a href="{% url 'post_create' %}">＋ 新規投稿</a>
+    </div>
+  </header>
+
+  <!-- ログイン状態 -->
+  <div class="box">
+    {% if user.is_authenticated %}
+      <div class="search-row" style="justify-content: space-between;">
+        <div>ログイン中：<strong>{{ user.username }}</strong></div>
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit">ログアウト</button>
+        </form>
+      </div>
+    {% else %}
+      <div class="search-row">
+        <a href="{% url 'login' %}">ログイン</a>
+        <span class="muted">｜</span>
+        <a href="{% url 'signup' %}">ユーザー登録</a>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- 検索フォーム -->
+  <div class="box">
+    <form method="get">
+      <div class="search-row">
+        <label>
+          キーワード：
+          <input type="text" name="keyword" value="{{ keyword }}">
+        </label>
+
+        <label>
+          カテゴリ：
+          <select name="category">
+            <option value="">（すべて）</option>
+            <option value="本" {% if category == "本" %}selected{% endif %}>本</option>
+            <option value="映画" {% if category == "映画" %}selected{% endif %}>映画</option>
+            <option value="音楽" {% if category == "音楽" %}selected{% endif %}>音楽</option>
+          </select>
+        </label>
+
+        <button type="submit">検索</button>
+        <a href="{% url 'timeline' %}">リセット</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- 投稿一覧 -->
+  <div class="box">
+    {% for post in posts %}
+      <div class="post">
+        <h3 class="post-title">{{ post.title }}（{{ post.category }}）</h3>
+        <p>{{ post.content }}</p>
+
+        <div class="post-actions">
+          <a href="{% url 'post_detail' post.id %}">詳細</a>
+          <a href="{% url 'post_edit' post.id %}">編集</a>
+          <a href="{% url 'post_delete' post.id %}">削除</a>
+        </div>
+      </div>
+    {% empty %}
+      <p>まだ投稿がありません。</p>
+    {% endfor %}
+  </div>
+
+</div>
+</body>
+</html>

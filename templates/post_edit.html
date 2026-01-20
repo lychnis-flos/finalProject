@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>編集</title></head>
+<body>
+<h1>投稿の編集</h1>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">更新</button>
+</form>
+
+<p><a href="/post/{{ post.id }}/">詳細へ戻る</a></p>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>削除</title></head>
+<body>
+<h1>削除の確認</h1>
+
+<p>「{{ post.title }}」を削除しますか？</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">削除する</button>
+</form>
+
+<p><a href="/">キャンセル（一覧へ）</a></p>
+</body>
+</html>
