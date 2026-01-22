@@ -25,7 +25,16 @@ SECRET_KEY = "django-insecure-u16h2l=(^xj9316v-#dbv3bc(-rra3zgq5-@-!y35r&v9wna-j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'finalproject-zpl6.onrender.com',
+    'localhost',
+    '127.0.0.1'
+]
+CSRF_TRUSTED_ORIGINS = [
+    "https://finalproject-zpl6.onrender.com",
+]
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 
 
 # Application definition
